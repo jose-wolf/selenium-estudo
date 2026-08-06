@@ -22,7 +22,8 @@ class PrimeiroTeste {
                 "/snap/firefox/current/usr/lib/firefox/firefox"
         );
 
-        options.addArguments("-private");
+        options.addArguments("--width=1920");
+        options.addArguments("--height=1000");
 
         WebDriver navegador = new FirefoxDriver(options);
 
