@@ -22,7 +22,7 @@ class PrimeiroTeste {
                 "/snap/firefox/current/usr/lib/firefox/firefox"
         );
 
-        options.addArguments("-headless");
+        options.addArguments("-private");
 
         WebDriver navegador = new FirefoxDriver(options);
 
