@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
@@ -27,18 +30,28 @@ class PrimeiroTeste {
 
         WebDriver navegador = new FirefoxDriver(options);
 
-
+        WebDriverWait wait = new WebDriverWait(navegador, Duration.ofSeconds(2));
         try {
             navegador.get("https://www.saucedemo.com/");
 
+            WebElement campoUsuario = navegador.findElement(By.id("user-name"));
+            WebElement campoPassword = navegador.findElement(By.id("password"));
 
-            String tituloDaPagina = navegador.getTitle();
+            campoUsuario.sendKeys("standard_user");
+            campoPassword.sendKeys("secret_sauce");
 
-            navegador.findElement(By.name("user-name"));
-            navegador.findElement(By.name("login-button"));
+            WebElement botao =
+                    navegador.findElement(By.id("login-button"));
 
+            botao.click();
 
-            assertEquals("Swag Labs", tituloDaPagina);
+            WebElement tituloProducts = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(
+                            By.className("title")
+                    )
+            );
+
+            assertEquals("Products", tituloProducts.getText());
         } finally {
             navegador.quit();
         }
