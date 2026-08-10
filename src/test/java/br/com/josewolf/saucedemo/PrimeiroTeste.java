@@ -51,6 +51,14 @@ class PrimeiroTeste {
                     )
             );
 
+
+
+            navegador.findElement(By.className("shopping_cart_link"));
+            navegador.findElement(By.id("react-burger-menu-btn"));
+            navegador.findElement(By.cssSelector("[data-test='social-linkedin']"));
+            navegador.findElement(By.tagName("a"));
+            navegador.findElement(By.linkText("Facebook"));
+
             assertEquals("Products", tituloProducts.getText());
         } finally {
             navegador.quit();
