@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -60,6 +61,28 @@ class PrimeiroTeste {
             navegador.findElement(By.linkText("Facebook"));
 
             assertEquals("Products", tituloProducts.getText());
+
+            List<WebElement> produtos = navegador.findElements(By.cssSelector("[data-test='inventory-item']"));
+
+            System.out.println(produtos.size());
+            assertEquals(6, produtos.size());
+
+
+            WebElement addProduct = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.cssSelector("[data-test='add-to-cart-sauce-labs-backpack']")
+            ));
+            addProduct.click();
+
+            WebElement badgeCarrinho = navegador.findElement(
+                    By.cssSelector("[data-test='shopping-cart-badge']")
+            );
+            assertEquals("1", badgeCarrinho.getText());
+
+            WebElement removeProduct = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.cssSelector("[data-test='remove-sauce-labs-backpack']")
+            ));
+            removeProduct.click();
+
         } finally {
             navegador.quit();
         }
