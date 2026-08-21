@@ -15,6 +15,7 @@ import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PrimeiroTeste {
 
@@ -50,8 +51,8 @@ class PrimeiroTeste {
             WebElement clickInventoryItem = wait.until(
                     ExpectedConditions.elementToBeClickable(By.cssSelector("[data-test='inventory-item-name']"))
             );
-            clickInventoryItem.isDisplayed();
-            clickInventoryItem.isEnabled();
+            assertTrue(clickInventoryItem.isDisplayed());
+            assertTrue(clickInventoryItem.isEnabled());
             pausar(1500);
             clickInventoryItem.click();
 
