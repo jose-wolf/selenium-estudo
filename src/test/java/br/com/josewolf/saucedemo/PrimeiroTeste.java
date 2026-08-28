@@ -47,37 +47,40 @@ class PrimeiroTeste {
 
             botao.click();
 
+            String janelaAtual = navegador.getWindowHandle();
+            System.out.println(janelaAtual);
 
-            Cookie cookie = new Cookie("MeuCookie", "teste123");
-            navegador.manage().addCookie(cookie);
 
-            Set<Cookie> cookies = navegador.manage().getCookies();
+            WebElement linkLinkedin = navegador.findElement(By.cssSelector("[data-test='social-linkedin']"));
+            linkLinkedin.click();
+            wait.until(ExpectedConditions.numberOfWindowsToBe(2));
 
-            for(Cookie cookieListAntes : cookies) {
-                System.out.println(cookieListAntes);
+            Set<String> janelas = navegador.getWindowHandles();
+            for (String janela : janelas) {
+                if(!janela.equals(janelaAtual)) {
+                    System.out.println(janela);
+                    navegador.switchTo().window(janela);
+                    break;
+                }
             }
 
-            Cookie encontrado =
-                    navegador.manage()
-                            .getCookieNamed("MeuCookie");
-
-            assertEquals(
-                    "teste123",
-                    encontrado.getValue()
+            wait.until(
+                    ExpectedConditions.urlContains(
+                            "https://www.linkedin.com/company/sauce-labs/"
+                    )
             );
 
-            System.out.println(cookies.size());
+            String urlAtual = navegador.getCurrentUrl();
 
-            navegador.manage().deleteCookieNamed("session-username");
+            assertTrue(
+                    urlAtual.contains("https://www.linkedin.com/company/sauce-labs/")
+            );
 
-            Set<Cookie> cookiesDepois =
-                    navegador.manage().getCookies();
+            navegador.close();
 
-            for(Cookie cookieListDepois : cookiesDepois) {
-                System.out.println(cookieListDepois);
-            }
-            System.out.println(cookiesDepois.size());
-
+            navegador.switchTo().window(janelaAtual);
+            String urlVolta = navegador.getCurrentUrl();
+            assertEquals("https://www.saucedemo.com/inventory.html", urlVolta);
 
         } finally {
             navegador.quit();
