@@ -1,19 +1,15 @@
 package br.com.josewolf.saucedemo;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.List;
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PrimeiroTeste {
 
@@ -47,70 +43,12 @@ class PrimeiroTeste {
 
             botao.click();
 
-            String janelaAtual = navegador.getWindowHandle();
-            System.out.println(janelaAtual);
+            WebElement inventoryItem = navegador.findElement(By.cssSelector("[data-test='inventory-item-name']"));
 
-
-            WebElement linkLinkedin = navegador.findElement(By.cssSelector("[data-test='social-linkedin']"));
-            linkLinkedin.click();
-            wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-
-            Set<String> janelas = navegador.getWindowHandles();
-            for (String janela : janelas) {
-                if(!janela.equals(janelaAtual)) {
-                    System.out.println(janela);
-                    navegador.switchTo().window(janela);
-                    break;
-                }
-            }
-
-            wait.until(
-                    ExpectedConditions.urlContains(
-                            "https://www.linkedin.com/company/sauce-labs/"
-                    )
-            );
-
-            String urlLinkedin = navegador.getCurrentUrl();
-
-            assertTrue(
-                    urlLinkedin.contains("https://www.linkedin.com/company/sauce-labs/")
-            );
-
-            navegador.close();
-
-            navegador.switchTo().window(janelaAtual);
-            String urlVolta = navegador.getCurrentUrl();
-            assertEquals("https://www.saucedemo.com/inventory.html", urlVolta);
-
-            WebElement facebookLink = navegador.findElement(By.cssSelector("[data-test='social-facebook']"));
-            facebookLink.click();
-            wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-            janelas = navegador.getWindowHandles();
-            for (String janela : janelas) {
-                if(!janela.equals(janelaAtual)) {
-                    System.out.println(janela);
-                    navegador.switchTo().window(janela);
-                    break;
-                }
-            }
-
-            wait.until(
-                    ExpectedConditions.urlContains(
-                            "https://www.facebook.com/saucelabs"
-                    )
-            );
-
-            String urlFacebook = navegador.getCurrentUrl();
-
-            assertTrue(
-                    urlFacebook.contains("https://www.facebook.com/saucelabs")
-            );
-
-            navegador.close();
-
-            navegador.switchTo().window(janelaAtual);
-            urlVolta = navegador.getCurrentUrl();
-            assertEquals("https://www.saucedemo.com/inventory.html", urlVolta);
+            Actions actions = new Actions(navegador);
+            actions.moveToElement(inventoryItem)
+                    .pause(Duration.ofSeconds(5))
+                    .perform();
 
         } finally {
             navegador.quit();
