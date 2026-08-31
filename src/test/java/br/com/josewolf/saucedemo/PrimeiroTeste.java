@@ -70,16 +70,46 @@ class PrimeiroTeste {
                     )
             );
 
-            String urlAtual = navegador.getCurrentUrl();
+            String urlLinkedin = navegador.getCurrentUrl();
 
             assertTrue(
-                    urlAtual.contains("https://www.linkedin.com/company/sauce-labs/")
+                    urlLinkedin.contains("https://www.linkedin.com/company/sauce-labs/")
             );
 
             navegador.close();
 
             navegador.switchTo().window(janelaAtual);
             String urlVolta = navegador.getCurrentUrl();
+            assertEquals("https://www.saucedemo.com/inventory.html", urlVolta);
+
+            WebElement facebookLink = navegador.findElement(By.cssSelector("[data-test='social-facebook']"));
+            facebookLink.click();
+            wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+            janelas = navegador.getWindowHandles();
+            for (String janela : janelas) {
+                if(!janela.equals(janelaAtual)) {
+                    System.out.println(janela);
+                    navegador.switchTo().window(janela);
+                    break;
+                }
+            }
+
+            wait.until(
+                    ExpectedConditions.urlContains(
+                            "https://www.facebook.com/saucelabs"
+                    )
+            );
+
+            String urlFacebook = navegador.getCurrentUrl();
+
+            assertTrue(
+                    urlFacebook.contains("https://www.facebook.com/saucelabs")
+            );
+
+            navegador.close();
+
+            navegador.switchTo().window(janelaAtual);
+            urlVolta = navegador.getCurrentUrl();
             assertEquals("https://www.saucedemo.com/inventory.html", urlVolta);
 
         } finally {
