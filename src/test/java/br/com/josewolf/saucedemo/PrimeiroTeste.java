@@ -42,22 +42,20 @@ class PrimeiroTeste {
             Actions actions = new Actions(navegador);
 
             actions.click(campoUsuario).
-                    keyDown(Keys.SHIFT).
                     sendKeys("standard_user").
-                    keyUp(Keys.SHIFT).
                     perform();
-
-
-
 
             campoPassword.sendKeys("secret_sauce");
 
-            WebElement botao =
+            WebElement botaoLogin =
                     navegador.findElement(By.id("login-button"));
 
 
-            botao.click();
+            actions.
+                    doubleClick(botaoLogin).
+                    perform();
 
+            actions.contextClick().perform();
 
         } finally {
             navegador.quit();
