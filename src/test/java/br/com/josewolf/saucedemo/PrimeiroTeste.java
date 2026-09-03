@@ -1,15 +1,20 @@
 package br.com.josewolf.saucedemo;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PrimeiroTeste {
 
@@ -34,7 +39,17 @@ class PrimeiroTeste {
             WebElement campoUsuario = navegador.findElement(By.id("user-name"));
             WebElement campoPassword = navegador.findElement(By.id("password"));
 
-            campoUsuario.sendKeys("standard_user");
+            Actions actions = new Actions(navegador);
+
+            actions.click(campoUsuario).
+                    keyDown(Keys.SHIFT).
+                    sendKeys("standard_user").
+                    keyUp(Keys.SHIFT).
+                    perform();
+
+
+
+
             campoPassword.sendKeys("secret_sauce");
 
             WebElement botao =
@@ -43,15 +58,10 @@ class PrimeiroTeste {
 
             botao.click();
 
-            WebElement inventoryItem = navegador.findElement(By.cssSelector("[data-test='inventory-item-name']"));
-
-            Actions actions = new Actions(navegador);
-            actions.moveToElement(inventoryItem)
-                    .pause(Duration.ofSeconds(5))
-                    .perform();
 
         } finally {
             navegador.quit();
+
         }
     }
 
